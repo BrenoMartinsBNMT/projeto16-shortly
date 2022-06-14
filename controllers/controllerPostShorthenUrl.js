@@ -8,12 +8,13 @@ export async function ControllerShorthenUrl(req, res) {
     `SELECT users.id FROM users WHERE token = '${req.headers.authorization}'`
   );
   const shorthenUrl = nanoid();
-  console.log(shorthenUrl);
+
   try {
     db.query(
-      "INSERT INTO shortly_url (url,shrothen_url,user_id) VALUES ($1,$2,$3)",
-      [url, shorthenUrl, idUser.rows[0].id]
+      "INSERT INTO shortly_url (url,shorthen_url,user_id,acess_count) VALUES ($1,$2,$3,$4)",
+      [url, shorthenUrl, idUser.rows[0].id, 0]
     );
-  } catch {}
-  console.log(idUser.rows.id);
+  } catch {
+    return res.sendStatus(500);
+  }
 }
